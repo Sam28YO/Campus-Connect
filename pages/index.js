@@ -1,14 +1,34 @@
+import Counter from "./components/counter";
 import Header from "./components/header";
-import { atom1 } from "./atoms/atom1";
-import { useRecoilState } from "recoil";
-export default function Page() {
-  const [count,setcount]=useRecoilState(atom1);
-  return (<>
 
-  <Header/>
-  <button onClick={()=>{setcount(count-1)}}>-</button>
-  <h1>{count}</h1>
-  <button onClick={()=>{setcount(count-1)}}>+</button>
-  </>
+export default function Page() {
+  async function onSubmit(event) {
+    event.preventDefault()
+ 
+    const formData = new FormData(event.target)
+    const response = await fetch('/api/submit', {
+      method: 'POST',
+      body: formData,
+    })
+ 
+    // Handle response if necessary
+    const data = await response.json()
+    // ...
+  }
+  
+  return (
+<div className="justify-center align-center">
+<Header/>
+<form onSubmit={onSubmit}>
+      <input type="email" name="name" />
+      <button className="w-16 text-white bg-gray-800" type="submit">Submit</button>
+    </form>
+<Counter />
+
+
+</div>
+  
+  
+  
   )
 }

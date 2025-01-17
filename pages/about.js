@@ -5,5 +5,5 @@ export default function About(){
     return (<>
     <Header/>
     <h1>About</h1>
-    <button className="bg-blue-300  p-6 rounded shadow" onClick={()=>{router.push('/')}}>touch</button></>)
+    <button className="bg-blue-300 h-10 w-32  rounded " onClick={()=>{router.push('/')}}>touch</button></>)
 }
