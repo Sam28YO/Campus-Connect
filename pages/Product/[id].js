@@ -1,37 +1,34 @@
-import Header from "../components/header"
+import Header from "../components/header";
 
 export async function getStaticPaths() {
-    const posts = await fetch('https://api.vercel.app/blog').then((res) =>
-      res.json()
-    )
-    const paths = posts.map((post) => ({
-      params: { id: String(post.id) },
-    }))
-   
-    // We'll prerender only these paths at build time.
-    // { fallback: false } means other routes should 404.
-    return { paths, fallback: false }
-  }
-   
-  export async function getStaticProps({ params }) {
-    const post = await fetch(`https://api.vercel.app/blog/${params.id}`).then(
-      (res) => res.json()
-    )
-   
-    return {
-      props: { post },
-      // Next.js will invalidate the cache when a
-      // request comes in, at most once every 60 seconds.
-      revalidate: 60,
-    }
-  }
-   
-  export default function Page({ post }) {
-    return (
-      <main>
-        <Header/>
-        <h1>{post.title}</h1>
-        <p>{post.content}</p>
-      </main>
-    )
-  }
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  const posts = await res.json();
+
+  const paths = posts.map((post) => ({
+    params: { id: String(post.id) }, 
+  }));
+
+  return { paths, fallback: true }; 
+}
+
+export async function getStaticProps({ params }) {
+  const { id } = params;
+
+  
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+  const post = await res.json();
+  return {props: {post, },};
+}
+
+export default function Post({ post }) {
+  return (
+    <div className="flex flex-col items-center justify-center px-4 sm:px-6 md:px-8">
+    <Header />
+    <article className="w-full max-w-3xl p-4">
+      <h1 className="text-3xl font-bold text-center text-green-800 mb-4">{post.title}</h1>
+      <p className="text-lg text-gray-700">{post.body}</p>
+    </article>
+  </div>
+  
+  );
+}
