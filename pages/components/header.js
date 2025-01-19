@@ -16,9 +16,7 @@ export default function Navbar() {
 <Link href="/" className={pathname === '/' ? "bold-font text-green-300 px-4 py-2 md:py-0" : "text-blue-500 px-4 py-2 md:py-0"}>Home</Link>
 <Link href="/about" className={pathname === '/about' ? "bold-font text-green-300 px-4 py-2 md:py-0" : "text-blue-500 px-4 py-2 md:py-0"}>About</Link>
 <Link href="/Product/1" className={pathname === '/Product/1' ? "bold-font text-green-300 px-4 py-2 md:py-0" : "text-blue-500 px-4 py-2 md:py-0"}>Producta</Link>
-<Link href="/table" className={pathname === '/table' ? "bold-font text-green-300 px-4 py-2 md:py-0" : "text-blue-500 px-4 py-2 md:py-0"}>Table</Link>
  <Link href="/axio" className={pathname === '/axio' ? "bold-font text-green-300 px-4 py-2 md:py-0" : "text-blue-500 px-4 py-2 md:py-0"}>Axio</Link>
-<Link href="/query" className={pathname === '/query' ? "bold-font text-green-300 px-4 py-2 md:py-0" : "text-blue-500 px-4 py-2 md:py-0"}>Query</Link>
 <Link href="/post" className={pathname === '/post' ? "bold-font text-green-300 px-4 py-2 md:py-0" : "text-blue-500 px-4 py-2 md:py-0"}>ISR</Link>
 <Link href="/list" className={pathname === '/list' ? "bold-font text-green-300 px-4 py-2 md:py-0" : "text-blue-500 px-4 py-2 md:py-0"}>Select</Link>
 <Link href="/extra" className={pathname === '/extra' ? "bold-font text-green-300 px-4 py-2 md:py-0" : "text-blue-500 px-4 py-2 md:py-0"}>SSR</Link>
