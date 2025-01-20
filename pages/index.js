@@ -3,7 +3,7 @@ import Footer from './components/footer';
 import Header from './components/header';
 import Hero from './components/Hero';
 import ThemeToggle from './components/ThemeToggle';
-import Way from './components/waytohistory';
+
 
 
 export default function Home() {

@@ -1,4 +1,3 @@
-import { FaHome } from 'react-icons/fa';
 import Select from 'react-select';
 import Link from 'next/link';
 const options = [

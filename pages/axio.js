@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Header from './components/header';
 
 async function fetchData(setData) {
     const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
@@ -11,6 +12,8 @@ export default function HomePage() {
     fetchData(setData);
   }, []);
   return (
+    <div>
+      <Header/>
   <div class="container mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold text-center mb-6">Axios Data</h1>
   <ul class="space-y-6">
@@ -20,6 +23,7 @@ export default function HomePage() {
 </li>))}
   </ul>
 </div>
-
+<Footer/>
+</div>
   );
 }
