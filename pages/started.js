@@ -22,7 +22,7 @@ export default function SignUpForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/signup', formData, {
+      const response = await axios.post('/api/hello', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
