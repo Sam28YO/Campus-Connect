@@ -13,7 +13,7 @@ export default function Hero() {
             modern, responsive, and user-friendly application. Powered by Next.js, Tailwind CSS,and React for a seamless experience.
           </p>
           <div className="flex space-x-4">
-            <Link href="/about" className="bg-white text-blue-600 px-6 py-3
+            <Link href="/impo" className="bg-white text-blue-600 px-6 py-3
           rounded-md font-semibold hover:bg-gray-200 "
             >About US
             </Link>

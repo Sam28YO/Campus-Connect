@@ -10,8 +10,8 @@ export default function ProductList() {
   const { data, isLoading, error } = useQuery({
     queryKey: ['products'], 
     queryFn: fetchProducts, 
-    staleTime: 60000, // Data is fresh for 1 minute
-    refetchInterval: 30000, // Refetch data every 30 seconds
+    staleTime: 60000, 
+    refetchInterval: 30000, 
   });
 
   if (isLoading) return <p>Loading...</p>;
