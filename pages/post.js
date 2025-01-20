@@ -10,7 +10,7 @@ export async function getStaticProps() {
   
   export default function Post({ post }) {
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto  px-4 py-8">
         <ul className="space-y-4">
           {post.map((blog) => (
             <li key={blog.id} className="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">

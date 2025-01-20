@@ -1,17 +1,17 @@
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === 'POST') {
-    // Process a POST request
-    const { name } = req.body; // Example of parsing JSON body
-    if (!name) {
-      return res.status(400).json({ error: 'Name is required' });
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'All fields are required' });
     }
-    res.status(200).json({ message: `Hello, ${name}!` });
-  } else if (req.method === 'GET') {
-    // Handle a GET request
-    res.status(200).json({ message: 'Welcome to the API!' });
+    try {
+      console.log('User Data:', { name, email, password });
+      return res.status(201).json({ message: 'User created successfully' });
+    } catch (error) {
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
   } else {
-    // Handle other HTTP methods
-    res.setHeader('Allow', ['GET', 'POST']);
+    res.setHeader('Allow', ['POST']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

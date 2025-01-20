@@ -1,17 +1,21 @@
-import Counter from "./components/counter";
-import Header from "./components/header";
 
-export default function Page() {
-   return (
-<div >
-<Header/>
-
-<Counter />
+import Footer from './components/footer';
+import Header from './components/header';
+import Hero from './components/Hero';
+import ThemeToggle from './components/ThemeToggle';
+import Way from './components/waytohistory';
 
 
-</div>
-  
-  
-  
-  )
+export default function Home() {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-grow">
+        <Header/>
+        <Hero/>
+        <ThemeToggle/>
+      </div>
+      
+      <Footer/>
+    </div>
+  );
 }
