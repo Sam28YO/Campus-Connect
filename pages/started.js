@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
-import { userState } from './atoms/userAtom';
+import { userState } from '../src/atoms/userAtom';
 import Header from './components/header';
 import Footer from './components/footer';
 

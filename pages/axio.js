@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Header from './components/header';
-
+import Footer from './components/footer';
 async function fetchData(setData) {
     const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
     setData(response.data);

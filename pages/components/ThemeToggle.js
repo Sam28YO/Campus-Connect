@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { themeState } from '../atoms/state';
+import { themeState } from '../../src/atoms/state';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
 
