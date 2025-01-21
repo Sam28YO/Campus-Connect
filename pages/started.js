@@ -6,11 +6,11 @@ import Header from './components/header';
 import Footer from './components/footer';
 
 export default function SignUpForm() {
-  const [formData, setFormData] = useRecoilState(userState); 
+  const [formData, setFormData] = useRecoilState(userState);
   const [responseMessage, setResponseMessage] = useState('');
-  const [userList, setUserList] = useState([]); 
-  const [editIndex, setEditIndex] = useState(null); 
-  const [editData, setEditData] = useState({}); 
+  const [userList, setUserList] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
+  const [editData, setEditData] = useState({});
 
   useEffect(() => {
     const savedUsers = JSON.parse(localStorage.getItem('userCredentialsList')) || [];
@@ -44,8 +44,8 @@ export default function SignUpForm() {
   };
 
   const handleEditClick = (index) => {
-    setEditIndex(index); 
-    setEditData(userList[index]); 
+    setEditIndex(index);
+    setEditData(userList[index]);
   };
 
   const handleEditInputChange = (e) => {
@@ -61,21 +61,21 @@ export default function SignUpForm() {
       index === editIndex ? editData : user
     );
     setUserList(updatedUsers);
-    localStorage.setItem('userCredentialsList', JSON.stringify(updatedUsers)); // Save updated data to localStorage
-    setEditIndex(null); 
+    localStorage.setItem('userCredentialsList', JSON.stringify(updatedUsers));
+    setEditIndex(null);
   };
 
   const handleDelete = (index) => {
-    const updatedUsers = userList.filter((_, i) => i !== index); // Remove the user at the selected index
-    setUserList(updatedUsers); 
-    localStorage.setItem('userCredentialsList', JSON.stringify(updatedUsers)); // Update localStorage
+    const updatedUsers = userList.filter((_, i) => i !== index);
+    setUserList(updatedUsers);
+    localStorage.setItem('userCredentialsList', JSON.stringify(updatedUsers));
   };
 
   return (
     <div>
       <Header />
       <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 px-4">
-        <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+        <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8 min-[120px]:w-full max-[405px]:w-[90%]">
           <h1 className="text-2xl font-bold text-blue-700 mb-4 text-center">Create an Account</h1>
           <p className="text-sm text-gray-500 mb-6 text-center">
             Sign up to get started and enjoy our services!
@@ -138,10 +138,9 @@ export default function SignUpForm() {
           {userList.map((user, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg p-4 w-80 border border-gray-200"
+              className="bg-white shadow-md rounded-lg p-4 w-full sm:w-80 md:w-1/2 lg:w-1/3 xl:w-1/4 border border-gray-200"
             >
               {editIndex === index ? (
-                
                 <div>
                   <input
                     type="text"
@@ -178,7 +177,6 @@ export default function SignUpForm() {
                   </button>
                 </div>
               ) : (
-                
                 <div>
                   <h3 className="text-lg font-bold text-gray-700">{user.name}</h3>
                   <p className="text-sm text-gray-600">Email: {user.email}</p>

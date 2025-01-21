@@ -27,16 +27,15 @@ const ThemeToggle = () => {
   }
   return (
     <div
-      className={`flex justify-center items-center ${
-        theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'
-      }`}>
-      <div className="container flex flex-row gap-72 h-20 py-2 justify-center items-center">
-        <div className="flex flex-row py-4 text-xl px-20 gap-6">
-          <Link href="/post" className={`flex flex-row gap-4 hover:${theme === 'dark' ? 'text-yellow-300' : 'text-yellow-500'
-} transition duration-300`}>Witness our journey from Start to 2025<FaArrowRight className="my-1 animate-pulse" />
+      className={`flex justify-center items-center ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
+      <div className="container flex flex-col md:flex-row gap-8 md:gap-72 h-auto py-4 justify-center items-center">
+        <div className="flex flex-col md:flex-row py-4 text-xl px-4 md:px-20 gap-6">
+          <Link href="/post" className={`flex flex-row gap-4 hover:${theme === 'dark' ? 'text-yellow-300' : 'text-yellow-500'} transition duration-300`}>
+            Witness our journey from Start to 2025<FaArrowRight className="my-1 animate-pulse" />
           </Link>
-<button onClick={toggleTheme} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
- {theme === 'light' ? 'Dark' : 'Light'} Mode</button>
+          <button onClick={toggleTheme} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+            {theme === 'light' ? 'Dark' : 'Light'} Mode
+          </button>
         </div>
       </div>
     </div>

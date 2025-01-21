@@ -5,23 +5,22 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <div className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 text-white py-8">
-      <div className="flex items-center justify-between px-8">
-        <div className="flex-1">
-          <h1 className="text-4xl font-bold mb-6">Welcome to KP!</h1>
+      <div className="flex flex-col md:flex-row items-center justify-between px-8">
+        <div className="flex-1 mb-8 md:mb-0">
+          <h1 className="text-3xl md:text-4xl font-bold mb-6">Welcome to KP!</h1>
           <p className="text-lg md:text-xl mb-8 max-w-2xl">
-            Streamline your customer relationships with MiniCRM. Organize contacts, track interactions, and manage tasks, all in one 
-            modern, responsive, and user-friendly application. Powered by Next.js, Tailwind CSS,and React for a seamless experience.
+            Streamline your customer relationships with MiniCRM. Organize contacts, track interactions, and manage tasks, all in one
+            modern, responsive, and user-friendly application. Powered by Next.js, Tailwind CSS, and React for a seamless experience.
           </p>
-          <div className="flex space-x-4">
-            <Link href="/impo" className="bg-white text-blue-600 px-6 py-3
-          rounded-md font-semibold hover:bg-gray-200 "
-            >About US
+          <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+            <Link href="/impo" className="bg-white text-blue-600 px-6 py-3 rounded-md font-semibold hover:bg-gray-200 text-center">
+              About US
             </Link>
-            <Link href="/started" className="bg-yellow-400 text-black px-6 py-3 rounded-md font-semibold hover:bg-yellow-500 ">
+            <Link href="/started" className="bg-yellow-400 text-black px-6 py-3 rounded-md font-semibold hover:bg-yellow-500 text-center">
               Start Free Trial
             </Link>
-             </div>
-              </div>
+          </div>
+        </div>
 
         <div className="flex-1 flex justify-center">
           <Image
@@ -29,7 +28,7 @@ export default function Hero() {
             src={pic1}
             width={400}
             height={300}
-            
+            alt="Hero Image"
           />
         </div>
       </div>
