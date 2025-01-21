@@ -5,6 +5,6 @@ export const userState = atom({
   default: {
     name: '',
     email: '',
-    password: '',
+    contact: '',
   },
 });

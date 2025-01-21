@@ -22,7 +22,7 @@ export default function Header() {
         <Select className="rounded-lg text-sm md:text-base" options={options} placeholder="Select an Option"/>
       </div>
       <nav className="flex flex-col md:flex-row text-black text-lg font-bold space-y-4 md:space-y-0 md:space-x-8 w-full md:w-auto">
-        <Link  href="/about"className="hover:text-green-600 text-center cursor-pointer">PRICING</Link>
+        <Link  href="/post" className="pl-8 hover:text-green-600 text-center cursor-pointer">Appointments</Link>
         <button onClick={contact} className="hover:text-green-600 text-center cursor-pointer">CONTACT US </button>
       </nav>
     </header>

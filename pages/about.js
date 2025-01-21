@@ -32,7 +32,7 @@ export default function ProductList() {
       <h1 className="text-3xl font-extrabold text-center mb-8 text-gray-800">Product List</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {products.map((product) => (
-          <div key={product.id} className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-transform transform hover:scale-105">
+          <div key={product.id} className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl ">
             <img src={product.image} className="w-full h-48 object-cover object-center"/>
             <div className="p-6">
               <h2 className="text-xl font-semibold text-gray-800">{product.title}</h2>
