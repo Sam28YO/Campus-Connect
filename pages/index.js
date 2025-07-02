@@ -790,7 +790,7 @@ const Home = () => {
                 </span>
               </h2>
               <p className={`text-xl max-w-2xl mx-auto ${theme === "dark" ? "text-gray-300" : "text-indigo-700"}`}>
-                Don't miss these exciting opportunities to learn, network, and grow
+                Donot miss these exciting opportunities to learn, network, and grow
               </p>
             </div>
 
