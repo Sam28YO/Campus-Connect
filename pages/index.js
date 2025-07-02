@@ -501,7 +501,7 @@ const Home = () => {
                 <div
                     className={`w-40 h-40 mx-auto rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6  `}
                 >
-                    <img src={step.icon} alt={step.title} className="w-80 h-80" />
+                    <Image  src={step.icon} alt={step.title} className="w-80 h-80" />
                 </div>
 
                 <h3
@@ -757,7 +757,7 @@ const Home = () => {
                                     className={`rounded-3xl overflow-hidden shadow-2xl ${theme === "dark" ? "bg-white ring-1 ring-white/10" : "bg-white ring-1 ring-indigo-200"} backdrop-blur-xl`}
                                 >
                                     <div className={`w-full h-96 flex items-center justify-center`}>
-                                        <img
+                                        <Image 
                                             src="/search.gif"
                                             alt="Smart Search"
                                             className="h-full object-contain"
