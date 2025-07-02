@@ -190,7 +190,7 @@ export default function SignUpForm() {
                     >
                       Delete
                     </button>
-                  </div>
+                  </div >
                 </div>
               )}
             </div>
