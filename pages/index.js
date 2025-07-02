@@ -384,7 +384,7 @@ const Home = () => {
       <blockquote
         className={`text-lg leading-relaxed mb-8 ${theme === "dark" ? "text-gray-300 group-hover:text-white" : "text-indigo-800 group-hover:text-indigo-900"} transition-colors duration-300`}
       >
-        "{testimonial.review}"
+        {`"${testimonial.review}"`}
       </blockquote>
       {/* Student info */}
       <div className="flex items-center gap-4">
