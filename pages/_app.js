@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }) {
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false}/>
+        
       </QueryClientProvider>
     </RecoilRoot>
   );
