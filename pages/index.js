@@ -5,6 +5,7 @@ import { Search, MessageSquare, Bell, Star, ArrowRight, CheckCircle, Gift, Spark
 import Image from "next/image"
 import Link from "next/link"
 import ImageCarousel from "./components/ImageCarousel"
+// import CuteRobot from './cuteRobot'
 
 const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
