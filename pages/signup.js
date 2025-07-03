@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
+import axios from "axios"
 import {
   Eye,
   EyeOff,
@@ -38,7 +39,7 @@ export default function SignupPage() {
     university: "Thapar Institute of Engineering and Technology",
     branch: "",
     graduationYear: "",
-    interests: [],
+    interests: ["Web Development",],
   })
 
   const [showPassword, setShowPassword] = useState(false)
@@ -83,8 +84,12 @@ export default function SignupPage() {
     }
 
     window.addEventListener("mousemove", handleMouseMove)
-    setIsVisible(true)
     return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [])
+
+  // Set isVisible only once on mount to avoid infinite re-renders
+  useEffect(() => {
+    setIsVisible(true)
   }, [])
 
   const handleInputChange = (field, value) => {
@@ -137,48 +142,49 @@ export default function SignupPage() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!validateForm()) return
 
-    setIsLoading(true)
-    try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
+
+const handleSubmit = async (e) => {
+  e.preventDefault()
+  if (!validateForm()) return
+
+  setIsLoading(true)
+
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/signup`,
+      {
+        name: formData.name,
+        rollNumber: formData.rollNumber,
+        mobile: formData.mobile,
+        email: formData.email,
+        year: formData.year,
+        role: formData.role,
+        password: formData.password,
+        university: formData.university,
+        branch: formData.branch,
+        graduationYear: Number.parseInt(formData.graduationYear),
+        interests: formData.interests,
+      },
+      {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: formData.name,
-          rollNumber: formData.rollNumber,
-          mobile: formData.mobile,
-          email: formData.email,
-          year: formData.year,
-          role: formData.role,
-          password: formData.password,
-          university: formData.university,
-          branch: formData.branch,
-          graduationYear: Number.parseInt(formData.graduationYear),
-          interests: formData.interests,
-        }),
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        // Handle successful signup
-        alert("Signup successful! Please login to continue.")
-        // Redirect to login page
-        window.location.href = "/login"
-      } else {
-        setErrors({ submit: data.message || "Signup failed" })
       }
-    } catch (error) {
-      setErrors({ submit: "Network error. Please try again." })
-    } finally {
-      setIsLoading(false)
-    }
+    )
+
+    // Handle successful signup
+    alert("Signup successful! Please login to continue.")
+    window.location.href = "/login"
+  } catch (error) {
+    const errMsg =
+      error.response?.data?.message || "Signup failed. Please try again."
+    setErrors({ submit: errMsg })
+  } finally {
+    setIsLoading(false)
   }
+}
+
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark")
