@@ -588,17 +588,17 @@ const Home = () => {
   // Component definitions (keeping existing ones and adding new ones)
   const AnimatedCounter = ({ value, label, icon: Icon }) => (
     <div
-      className={`group ${theme === "dark" ? "bg-white/10 hover:bg-white/15 hover:shadow-purple-500/20" : "bg-indigo-50 hover:bg-indigo-100 hover:shadow-indigo-500/20"} backdrop-blur-xl rounded-2xl p-6 border ${theme === "dark" ? "border-white/20" : "border-indigo-200"} transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
+      className={`group ${theme === "dark" ? "bg-white/10 hover:bg-white/15 hover:shadow-purple-500/20" : "bg-indigo-50 hover:bg-indigo-100 hover:shadow-indigo-500/20"} backdrop-blur-xl rounded-2xl p-6 border ${theme === "dark" ? "border-white/20" : "border-indigo-200"}   hover:scale-105 hover:shadow-2xl`}
     >
       <div className="flex items-center justify-center mb-4">
         <div
-          className={`w-12 h-12 rounded-full flex items-center justify-center ${theme === "dark" ? "bg-gradient-to-r from-purple-500 to-yellow-400" : "bg-gradient-to-r from-indigo-600 to-purple-600"} group-hover:scale-110 transition-transform duration-300`}
+          className={`w-12 h-12 rounded-full flex items-center justify-center ${theme === "dark" ? "bg-gradient-to-r from-purple-500 to-yellow-400" : "bg-gradient-to-r from-indigo-600 to-purple-600"} group-hover:scale-110  `}
         >
           <Icon className="w-6 h-6 text-white" />
         </div>
       </div>
       <div
-        className={`text-4xl font-black mb-2 group-hover:scale-110 transition-transform duration-300 text-center ${theme === "dark" ? "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-yellow-300" : "text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600"}`}
+        className={`text-4xl font-black mb-2 group-hover:scale-110   text-center ${theme === "dark" ? "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-yellow-300" : "text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600"}`}
       >
         {value}
       </div>
@@ -610,11 +610,11 @@ const Home = () => {
     const Icon = feature.icon
     return (
       <div
-        className={`group relative ${theme === "dark" ? "bg-white/5 hover:bg-white/10" : "bg-yellow-50 hover:bg-yellow-100"} backdrop-blur-xl rounded-3xl p-8 border ${theme === "dark" ? "border-white/10" : "border-yellow-200"} transform hover:-translate-y-4 hover:shadow-2xl transition-all duration-500`}
+        className={`group relative ${theme === "dark" ? "bg-white/5 hover:bg-white/10" : "bg-yellow-50 hover:bg-yellow-100"} backdrop-blur-xl rounded-3xl p-8 border ${theme === "dark" ? "border-white/10" : "border-yellow-200"} transform hover:-translate-y-4 hover:shadow-2xl  `}
         style={{ animationDelay: feature.delay }}
       >
         <div
-          className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-3xl`}
+          className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-10   rounded-3xl`}
         ></div>
         <div
           className={`relative w-20 h-20 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6   shadow-lg`}
@@ -635,7 +635,7 @@ const Home = () => {
           {feature.description}
         </p>
         <div
-          className={`inline-flex items-center gap-2 bg-gradient-to-r ${feature.gradient} bg-opacity-20 backdrop-blur-sm border ${theme === "dark" ? "border-white/20" : "border-indigo-200"} rounded-full px-4 py-2 group-hover:scale-105 transition-transform duration-300`}
+          className={`inline-flex items-center gap-2 bg-gradient-to-r ${feature.gradient} bg-opacity-20 backdrop-blur-sm border ${theme === "dark" ? "border-white/20" : "border-indigo-200"} rounded-full px-4 py-2 group-hover:scale-105  `}
         >
           <CheckCircle className={`w-4 h-4 ${theme === "dark" ? "text-yellow-400" : "text-indigo-600"}`} />
           <span className={`text-sm font-semibold ${theme === "dark" ? "text-white" : "text-indigo-800"}`}>
@@ -648,7 +648,7 @@ const Home = () => {
 
   const TestimonialCard = ({ testimonial, index }) => (
     <div
-      className={`group relative backdrop-blur-xl rounded-3xl p-8 border transition-all duration-500 transform hover:-translate-y-2 hover:shadow-2xl ${theme === "dark" ? "bg-white/5 hover:bg-white/10 border-white/10 hover:border-white/20" : "bg-yellow-50/80 hover:bg-yellow-100/80 border-yellow-200 hover:border-yellow-300"}`}
+      className={`group relative backdrop-blur-xl rounded-3xl p-8 border   transform hover:-translate-y-2 hover:shadow-2xl ${theme === "dark" ? "bg-white/5 hover:bg-white/10 border-white/10 hover:border-white/20" : "bg-yellow-50/80 hover:bg-yellow-100/80 border-yellow-200 hover:border-yellow-300"}`}
       style={{ animationDelay: testimonial.delay }}
     >
       <div className="absolute -top-4 -left-4">
@@ -674,7 +674,7 @@ const Home = () => {
       </blockquote>
       <div className="flex items-center gap-4">
         <div
-          className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-lg ${theme === "dark" ? "bg-gradient-to-r from-purple-500 to-indigo-500" : "bg-gradient-to-r from-indigo-600 to-purple-600"} shadow-lg group-hover:scale-110 transition-transform duration-300`}
+          className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-white text-lg ${theme === "dark" ? "bg-gradient-to-r from-purple-500 to-indigo-500" : "bg-gradient-to-r from-indigo-600 to-purple-600"} shadow-lg group-hover:scale-110  `}
         >
           {testimonial.avatar}
         </div>
@@ -694,19 +694,19 @@ const Home = () => {
         </div>
       </div>
       <div
-        className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${theme === "dark" ? "bg-gradient-to-r from-indigo-500 to-purple-500" : "bg-gradient-to-r from-indigo-400 to-purple-400"}`}
+        className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5   ${theme === "dark" ? "bg-gradient-to-r from-indigo-500 to-purple-500" : "bg-gradient-to-r from-indigo-400 to-purple-400"}`}
       ></div>
     </div>
   )
 
   const EventCard = ({ event }) => (
     <div
-      className={`group relative backdrop-blur-xl rounded-3xl p-8 border transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 ${theme === "dark" ? "bg-white/5 hover:bg-white/10 border-white/10 hover:border-white/20" : "bg-yellow-50/80 hover:bg-yellow-100/80 border-yellow-200 hover:border-yellow-300"}`}
+      className={`group relative backdrop-blur-xl rounded-3xl p-8 border transform hover:-translate-y-2 hover:shadow-2xl   ${theme === "dark" ? "bg-white/5 hover:bg-white/10 border-white/10 hover:border-white/20" : "bg-yellow-50/80 hover:bg-yellow-100/80 border-yellow-200 hover:border-yellow-300"}`}
       style={{ animationDelay: event.delay }}
     >
       <div className="flex items-center gap-3 mb-6">
         <div
-          className={`p-3 rounded-xl ${theme === "dark" ? "bg-gradient-to-r from-purple-500 to-indigo-500" : "bg-gradient-to-r from-indigo-600 to-purple-600"} group-hover:scale-110 transition-transform duration-300`}
+          className={`p-3 rounded-xl ${theme === "dark" ? "bg-gradient-to-r from-purple-500 to-indigo-500" : "bg-gradient-to-r from-indigo-600 to-purple-600"} group-hover:scale-110  `}
         >
           {event.icon}
         </div>
@@ -741,7 +741,7 @@ const Home = () => {
         View Details
       </button>
       <div
-        className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${theme === "dark" ? "bg-gradient-to-r from-purple-500 to-indigo-500" : "bg-gradient-to-r from-indigo-400 to-purple-400"}`}
+        className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5   ${theme === "dark" ? "bg-gradient-to-r from-purple-500 to-indigo-500" : "bg-gradient-to-r from-indigo-400 to-purple-400"}`}
       ></div>
     </div>
   )
@@ -749,7 +749,7 @@ const Home = () => {
   const HowItWorksCard = ({ step, index }) => {
     return (
       <div
-        className={`group relative rounded-3xl p-8 border hover:shadow-2xl transition-all duration-500 ${
+        className={`group relative rounded-3xl p-8 border hover:shadow-2xl   ${
           theme === "dark"
             ? "bg-gradient-to-br from-yellow-600 via-yellow-500 to-orange-400 border-yellow-300"
             : "bg-gradient-to-br from-yellow-100 via-yellow-50 to-white border-yellow-200"
@@ -794,7 +794,7 @@ const Home = () => {
           {step.description}
         </p>
         <div
-          className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${
+          className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5   ${
             theme === "dark"
               ? "bg-gradient-to-r from-purple-500 to-indigo-500"
               : "bg-gradient-to-r from-indigo-400 to-purple-400"
@@ -806,7 +806,7 @@ const Home = () => {
 
   const DiscussionCard = ({ discussion }) => (
     <div
-      className={`backdrop-blur-xl rounded-3xl p-8 border transition-all duration-500 ${theme === "dark" ? "bg-white/5 border-white/10" : "bg-yellow-50/80 border-yellow-200"}`}
+      className={`backdrop-blur-xl rounded-3xl p-8 border   ${theme === "dark" ? "bg-white/5 border-white/10" : "bg-yellow-50/80 border-yellow-200"}`}
     >
       <div className="flex items-start gap-4 mb-4">
         <div
@@ -937,7 +937,7 @@ const Home = () => {
     const Icon = benefit.icon
     return (
       <div
-        className={`group relative backdrop-blur-xl rounded-3xl p-6 border transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 ${theme === "dark" ? "bg-white/5 hover:bg-white/10 border-white/10 hover:border-white/20" : "bg-white/80 hover:bg-white border-indigo-200 hover:border-indigo-300"}`}
+        className={`group relative backdrop-blur-xl rounded-3xl p-6 border transform hover:-translate-y-2 hover:shadow-2xl   ${theme === "dark" ? "bg-white/5 hover:bg-white/10 border-white/10 hover:border-white/20" : "bg-white/80 hover:bg-white border-indigo-200 hover:border-indigo-300"}`}
       >
         <div
           className={`w-16 h-16 bg-gradient-to-r ${benefit.gradient} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6   shadow-lg`}
@@ -955,7 +955,7 @@ const Home = () => {
           {benefit.description}
         </p>
         <div
-          className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 bg-gradient-to-r ${benefit.gradient}`}
+          className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5   bg-gradient-to-r ${benefit.gradient}`}
         ></div>
       </div>
     )
@@ -963,7 +963,7 @@ const Home = () => {
 
   return (
     <div
-      className={`min-h-screen relative overflow-hidden transition-all duration-500 ${theme === "dark" ? "bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900" : "bg-gradient-to-br from-yellow-50 via-indigo-50 to-purple-50"}`}
+      className={`min-h-screen relative overflow-hidden   ${theme === "dark" ? "bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900" : "bg-gradient-to-br from-yellow-50 via-indigo-50 to-purple-50"}`}
     >
       {/* Theme Toggle Button */}
       <button
@@ -1519,7 +1519,7 @@ const Home = () => {
                   >
                     <span className="flex items-center gap-2">
                       Find Students
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1  " />
                     </span>
                   </button>
                   <button
@@ -1610,90 +1610,10 @@ const Home = () => {
             </div>
           </div>
         </section>
-        <div className="mt-20">
-  
-</div>
+       
 
         {/* Campus Ambassador Program Section */}
-        <section
-          className={`py-24 ${theme === "dark" ? "bg-gradient-to-br from-slate-900 to-slate-950" : "bg-gradient-to-br from-yellow-50 to-indigo-50"}`}
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Crown className={`w-8 h-8 ${theme === "dark" ? "text-yellow-400" : "text-indigo-600"}`} />
-                <h2
-                  className={`text-4xl md:text-5xl font-black ${theme === "dark" ? "text-white" : "text-indigo-900"}`}
-                >
-                  Become a{" "}
-                  <span
-                    className={`text-transparent bg-clip-text ${theme === "dark" ? "bg-gradient-to-r from-yellow-400 to-purple-400" : "bg-gradient-to-r from-indigo-600 to-purple-600"}`}
-                  >
-                    Campus Ambassador
-                  </span>
-                </h2>
-                <Award className={`w-8 h-8 ${theme === "dark" ? "text-purple-400" : "text-purple-600"}`} />
-              </div>
-              <p className={`text-xl max-w-3xl mx-auto mb-8 ${theme === "dark" ? "text-gray-300" : "text-indigo-700"}`}>
-                Join our elite team of student leaders and help shape the future of campus communities. 
-                Get exclusive benefits, recognition, and opportunities while making a real impact.
-              </p>
-              <button
-                onClick={() => setShowAmbassadorModal(true)}
-                className={`px-8 py-4 rounded-2xl font-bold   transform hover:scale-105 shadow-xl ${
-                  theme === "dark"
-                    ? "bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-black"
-                    : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
-                }`}
-              >
-                <span className="flex items-center gap-2">
-                  <Crown className="w-5 h-5" />
-                  Apply Now
-                  <ArrowRight className="w-5 h-5" />
-                </span>
-              </button>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {ambassadorBenefits.map((benefit, index) => (
-                <AmbassadorBenefitCard key={index} benefit={benefit} />
-              ))}
-            </div>
-
-            <div className="mt-16 text-center">
-              <div
-                className={`inline-flex items-center gap-6 backdrop-blur-xl rounded-2xl px-8 py-6 border ${theme === "dark" ? "bg-white/5 border-white/10" : "bg-white/80 border-indigo-200"}`}
-              >
-                <div className="text-center">
-                  <div className={`text-3xl font-black ${theme === "dark" ? "text-yellow-400" : "text-indigo-600"}`}>
-                    50+
-                  </div>
-                  <div className={`text-sm font-medium ${theme === "dark" ? "text-gray-400" : "text-indigo-600"}`}>
-                    Active Ambassadors
-                  </div>
-                </div>
-                <div className={`w-px h-12 ${theme === "dark" ? "bg-white/20" : "bg-indigo-200"}`}></div>
-                <div className="text-center">
-                  <div className={`text-3xl font-black ${theme === "dark" ? "text-purple-400" : "text-purple-600"}`}>
-                    ₹12K
-                  </div>
-                  <div className={`text-sm font-medium ${theme === "dark" ? "text-gray-400" : "text-indigo-600"}`}>
-                    Avg Monthly Earning
-                  </div>
-                </div>
-                <div className={`w-px h-12 ${theme === "dark" ? "bg-white/20" : "bg-indigo-200"}`}></div>
-                <div className="text-center">
-                  <div className={`text-3xl font-black ${theme === "dark" ? "text-green-400" : "text-green-600"}`}>
-                    95%
-                  </div>
-                  <div className={`text-sm font-medium ${theme === "dark" ? "text-gray-400" : "text-indigo-600"}`}>
-                    Satisfaction Rate
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        
 
         {/* How It Works Section */}
         
@@ -1965,7 +1885,7 @@ const Home = () => {
         {/* Enhanced Countdown Timer Section */}
         <button
           onClick={() => setShowOffer(true)}
-          className={`fixed bottom-6 left-6 z-50 py-4 px-6 rounded-full shadow-xl text-sm font-black flex items-center gap-4 transition-transform duration-300 hover:scale-105 ${
+          className={`fixed bottom-6 left-6 z-50 py-4 px-6 rounded-full shadow-xl text-sm font-black flex items-center gap-4   hover:scale-105 ${
             theme === "dark"
               ? "bg-gradient-to-r from-yellow-400 to-orange-400 text-black"
               : "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
@@ -2030,7 +1950,7 @@ const Home = () => {
                   </div>
                   <div className="h-3 rounded-full bg-indigo-100 dark:bg-white/20 overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500 rounded-full"
+                      className="h-full bg-gradient-to-r from-indigo-500 to-purple-500   rounded-full"
                       style={{ width: `${100 - seatsLeft}%` }}
                     ></div>
                   </div>
