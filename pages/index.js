@@ -1918,7 +1918,7 @@ const Home = () => {
               <div className="text-center space-y-4">
                 <h3 className="text-2xl font-black">🎁 Early Bird Offer</h3>
                 <p className="text-sm font-medium">
-                  ₹2,500 <span className="line-through text-gray-500">₹2,500</span> →{" "}
+                   <span className="line-through text-gray-500">₹2,500</span> →{" "}
                   <span className="font-bold text-lg text-green-600">₹250</span> for 4 years
                 </p>
                 <div className="grid grid-cols-4 gap-3 mt-4">
