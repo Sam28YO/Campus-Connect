@@ -30,15 +30,18 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
   }, []);
 
   const navItems = [
-    { name: "Discussions", href: "/discussion", icon: null },
-    { name: "Events", href: "/orgControl/events", icon: null },
-    token
-      ? { name: "Profile", href: "/profile", icon: null }
-      : { name: "Login", href: "/login", icon: LogIn },
+    ...(token
+      ? [
+          { name: "Discussions", href: "/discussion", icon: null },
+          { name: "Events", href: "/orgControl/events", icon: null },
+          { name: "Profile", href: "/profile", icon: null },
+        ]
+      : [{ name: "Login", href: "/login", icon: LogIn }]),
   ];
 
   const isEventsPage = router.pathname === "/orgControl/events";
   const isOrganizationsPage = router.pathname === "/orgControl/organizations";
+  const isProfilePage = router.pathname === "/profile";
 
   return (
     <>
@@ -237,7 +240,7 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
       </nav>
       <div
         className={`${
-          isEventsPage || isOrganizationsPage ? "h-20" : "h-12"
+          isEventsPage || isOrganizationsPage || isProfilePage ? "h-20" : "h-12"
         } w-full`}
       />
 

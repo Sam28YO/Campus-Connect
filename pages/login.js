@@ -20,7 +20,6 @@ import {
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-import Navbar from "./components/navbar";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -71,36 +70,36 @@ export default function LoginPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     if (!validateForm()) return;
+  // const handleSubmit = async (e) => {
+  // e.preventDefault();
+  // if (!validateForm()) return;
 
-  //     setIsLoading(true);
-  //     try {
-  //       const response = await fetch("/api/auth/login", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(formData),
-  //       });
+  // setIsLoading(true);
+  // try {
+  // const response = await fetch("/api/auth/login", {
+  // method: "POST",
+  // headers: {
+  // "Content-Type": "application/json",
+  // },
+  // body: JSON.stringify(formData),
+  // });
 
-  //       const data = await response.json();
+  // const data = await response.json();
 
-  //       if (response.ok) {
-  //         // Handle successful login
-  //         // Store token and redirect to dashboard
-  //         localStorage.setItem("token", data.token);
-  //         window.location.href = "/dashboard";
-  //       } else {
-  //         setErrors({ submit: data.message || "Login failed" });
-  //       }
-  //     } catch (error) {
-  //       setErrors({ submit: "Network error. Please try again." });
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
+  // if (response.ok) {
+  // // Handle successful login
+  // // Store token and redirect to dashboard
+  // localStorage.setItem("token", data.token);
+  // window.location.href = "/dashboard";
+  // } else {
+  // setErrors({ submit: data.message || "Login failed" });
+  // }
+  // } catch (error) {
+  // setErrors({ submit: "Network error. Please try again." });
+  // } finally {
+  // setIsLoading(false);
+  // }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,21 +111,23 @@ export default function LoginPage() {
         `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/login`,
         formData
       );
-
-      toast.success("Login successfull!")
+      console.log("dta", response.data);
+      console.log("response", response.data.user.id);
+      toast.success("Login successfull!");
       // On success
       const { token, user } = response.data;
 
       // Set token in cookies (expires in 7 days)
       Cookies.set("token", token, { expires: 7 });
+      Cookies.set("userId", response.data.user.id, { expires: 7 });
 
       // Save token and optionally user info
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
 
       // Redirect to dashboard
-      
-        window.location.href = "/";
+
+      window.location.href = "/";
     } catch (error) {
       if (error.response) {
         // Server responded with a status other than 2xx
@@ -152,7 +153,6 @@ export default function LoginPage() {
           : "bg-gradient-to-br from-yellow-50 via-indigo-50 to-purple-50"
       }`}
     >
-      <Navbar/>
       {/* Theme Toggle Button */}
       <button
         onClick={toggleTheme}
@@ -235,7 +235,6 @@ export default function LoginPage() {
                 : "opacity-0 translate-y-10"
             }`}
           >
-            
             <div
               className={`inline-flex items-center gap-3 backdrop-blur-xl rounded-full px-8 py-4 mb-8 border transition-all duration-1000 ${
                 theme === "dark"
