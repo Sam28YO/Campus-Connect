@@ -50,6 +50,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ImageCarousel from "./components/ImageCarousel";
 import CuteRobot from './cuteRobot'
+import Navbar from "./components/navbar";
 
 const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -2045,6 +2046,7 @@ const Home = () => {
       <div className="relative z-10">
         {/* Enhanced Hero Section */}
         <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+          <Navbar/>
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col lg:flex-row items-center gap-12">
               <div className="lg:w-1/2">

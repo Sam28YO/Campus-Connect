@@ -24,6 +24,7 @@ import {
   Star,
 } from "lucide-react"
 import Link from "next/link"
+import Navbar from "./components/navbar";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -192,6 +193,7 @@ export default function SignupPage() {
           : "bg-gradient-to-br from-yellow-50 via-indigo-50 to-purple-50"
       }`}
     >
+      <Navbar/>
       {/* Theme Toggle Button */}
       <button
         onClick={toggleTheme}

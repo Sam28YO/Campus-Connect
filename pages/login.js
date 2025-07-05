@@ -20,6 +20,7 @@ import {
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import Navbar from "./components/navbar";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -151,6 +152,7 @@ export default function LoginPage() {
           : "bg-gradient-to-br from-yellow-50 via-indigo-50 to-purple-50"
       }`}
     >
+      <Navbar/>
       {/* Theme Toggle Button */}
       <button
         onClick={toggleTheme}
@@ -233,6 +235,7 @@ export default function LoginPage() {
                 : "opacity-0 translate-y-10"
             }`}
           >
+            
             <div
               className={`inline-flex items-center gap-3 backdrop-blur-xl rounded-full px-8 py-4 mb-8 border transition-all duration-1000 ${
                 theme === "dark"
