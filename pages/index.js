@@ -5,6 +5,7 @@ import { Search, MessageSquare, Bell, Star, ArrowRight, CheckCircle, Gift, Spark
 import Image from "next/image"
 import Link from "next/link"
 import ImageCarousel from "./components/ImageCarousel"
+import Navbar from "./components/navbar"
 
 const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -1466,6 +1467,7 @@ const Home = () => {
       ></div>
 
       <div className="relative z-10">
+        <Navbar/>
         {/* Enhanced Hero Section */}
         <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">

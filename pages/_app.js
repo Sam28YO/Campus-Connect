@@ -9,6 +9,7 @@ const queryClient = new QueryClient();
 export default function App({ Component, pageProps }) {
   return (
     <RecoilRoot>
+      {/* <Navbar /> */}
       <QueryClientProvider client={queryClient}>
         <Head>
           <script 

@@ -1,30 +1,47 @@
-"use client"
+// "use client"
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { LogIn, Menu, X, Sun, Moon, Rocket } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { LogIn, Menu, X, Sun, Moon, Rocket } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 export default function Navbar({ theme = "dark", onThemeToggle }) {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isVisible, setIsVisible] = useState(false)
+  const [hasMounted, setHasMounted] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  const token = hasMounted ? Cookies.get("token") : null;
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
+      setIsScrolled(window.scrollY > 20);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    setIsVisible(true)
+    window.addEventListener("scroll", handleScroll);
+    setIsVisible(true);
 
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
-    { name: "Discussions", href: "/discussion", icon: null },
-    { name: "Login", href: "/login", icon: LogIn },
-  ]
+    ...(token
+      ? [
+          { name: "Discussions", href: "/discussion", icon: null },
+          { name: "Events", href: "/orgControl/events", icon: null },
+          { name: "Profile", href: "/profile", icon: null },
+        ]
+      : [{ name: "Login", href: "/login", icon: LogIn }]),
+  ];
+
+  const isEventsPage = router.pathname === "/orgControl/events";
+  const isOrganizationsPage = router.pathname === "/orgControl/organizations";
+  const isProfilePage = router.pathname === "/profile";
 
   return (
     <>
@@ -35,9 +52,15 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
         }`}
       >
         <div
-          className={`  border transition-all duration-500 ${
-            isScrolled ? "backdrop-blur-xl shadow-2xl" : "backdrop-blur-md shadow-lg"
-          } ${theme === "dark" ? "bg-white/5 border-white/10" : "bg-white/80 border-white/20"}`}
+          className={`mx-4 mt-4 rounded-2xl border transition-all duration-500 ${
+            isScrolled
+              ? "backdrop-blur-xl shadow-2xl"
+              : "backdrop-blur-md shadow-lg"
+          } ${
+            theme === "dark"
+              ? "bg-white/5 border-white/10"
+              : "bg-white/80 border-white/20"
+          }`}
         >
           <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
@@ -75,7 +98,7 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center gap-2 ml-auto">
                 {navItems.map((item) => {
-                  const Icon = item.icon
+                  const Icon = item.icon;
                   return (
                     <Link key={item.name} href={item.href}>
                       <Button
@@ -97,8 +120,24 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
                         ></div>
                       </Button>
                     </Link>
-                  )
+                  );
                 })}
+                {token && (
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      Cookies.remove("token");
+                      router.push("/");
+                    }}
+                    className={`relative px-6 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
+                      theme === "dark"
+                        ? "text-red-400 hover:text-white hover:bg-white/10"
+                        : "text-red-600 hover:text-red-800 hover:bg-red-100 border border-red-200"
+                    }`}
+                  >
+                    Logout
+                  </Button>
+                )}
               </div>
 
               {/* Theme Toggle & Mobile Menu */}
@@ -113,7 +152,11 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
                         : "bg-indigo-100/50 border-indigo-200/50 text-indigo-600 hover:bg-indigo-200/50"
                     }`}
                   >
-                    {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                    {theme === "dark" ? (
+                      <Sun className="w-5 h-5" />
+                    ) : (
+                      <Moon className="w-5 h-5" />
+                    )}
                   </button>
                 )}
 
@@ -126,7 +169,11 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
                       : "bg-indigo-100/50 border-indigo-200/50 text-indigo-600 hover:bg-indigo-200/50"
                   }`}
                 >
-                  {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                  {isMobileMenuOpen ? (
+                    <X className="w-5 h-5" />
+                  ) : (
+                    <Menu className="w-5 h-5" />
+                  )}
                 </button>
               </div>
             </div>
@@ -134,16 +181,24 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
             {/* Mobile Menu */}
             <div
               className={`md:hidden overflow-hidden transition-all duration-500 ${
-                isMobileMenuOpen ? "max-h-96 opacity-100 mt-6" : "max-h-0 opacity-0"
+                isMobileMenuOpen
+                  ? "max-h-96 opacity-100 mt-6"
+                  : "max-h-0 opacity-0"
               }`}
             >
               <div
-                className={`border-t pt-6 space-y-3 ${theme === "dark" ? "border-white/10" : "border-indigo-200/50"}`}
+                className={`border-t pt-6 space-y-3 ${
+                  theme === "dark" ? "border-white/10" : "border-indigo-200/50"
+                }`}
               >
                 {navItems.map((item) => {
-                  const Icon = item.icon
+                  const Icon = item.icon;
                   return (
-                    <Link key={item.name} href={item.href} onClick={() => setIsMobileMenuOpen(false)}>
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
                       <Button
                         variant="ghost"
                         className={`w-full justify-start px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
@@ -156,7 +211,7 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
                         {item.name}
                       </Button>
                     </Link>
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -183,7 +238,11 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
           ))}
         </div>
       </nav>
-      <div className="h-12 w-full" />
+      <div
+        className={`${
+          isEventsPage || isOrganizationsPage || isProfilePage ? "h-20" : "h-12"
+        } w-full`}
+      />
 
       <style jsx>{`
         @keyframes float {
@@ -200,5 +259,5 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
         }
       `}</style>
     </>
-  )
+  );
 }
