@@ -935,7 +935,7 @@ export default function ProfilePage() {
                           theme === "dark" ? "text-gray-300" : "text-gray-700"
                         }`}
                       >
-                        "{comment.text}"
+                        {`"${comment.text}"`}
                       </p>
                       <div className="flex items-center justify-between text-sm">
                         <span

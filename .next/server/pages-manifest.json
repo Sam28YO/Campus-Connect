@@ -2,7 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/profile": "pages/profile.js",
+  "/orgControl/events": "pages/orgControl/events.js",
   "/discussion": "pages/discussion.js",
-  "/orgControl/events": "pages/orgControl/events.js"
+  "/orgControl/organizations": "pages/orgControl/organizations.js",
+  "/": "pages/index.js"
 }

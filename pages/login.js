@@ -535,7 +535,7 @@ export default function LoginPage() {
                       theme === "dark" ? "text-gray-300" : "text-indigo-700"
                     }`}
                   >
-                    Don't have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <Link
                       href="/signup"
                       className={`font-bold transition-colors hover:underline ${
