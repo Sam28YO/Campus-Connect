@@ -2,7 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/login": "pages/login.js",
-  "/payment": "pages/payment.js",
-  "/discussion": "pages/discussion.js"
+  "/profile": "pages/profile.js",
+  "/discussion": "pages/discussion.js",
+  "/orgControl/events": "pages/orgControl/events.js"
 }
