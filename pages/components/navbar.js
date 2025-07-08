@@ -36,7 +36,11 @@ export default function Navbar({ theme = "dark", onThemeToggle }) {
     ...(token
       ? [
           { name: "Discussions", href: "/discussion", icon: null },
-          { name: "Events", href: "/orgControl/events", icon: null },
+          {
+            name: "Organization",
+            href: "/orgControl/organizations",
+            icon: null,
+          },
           { name: "Profile", href: "/profile", icon: null },
         ]
       : [{ name: "Login", href: "/login", icon: LogIn }]),
