@@ -3,10 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import {
-  Eye,
-  EyeOff,
   Mail,
-  Hash,
   Lock,
   Sun,
   Moon,
@@ -16,23 +13,25 @@ import {
   CheckCircle,
   Star,
   User,
+  ChevronLeft,
 } from "lucide-react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const [formData, setFormData] = useState({
-    identifier: "",
-    password: "",
+    email: "",
+    isAdmin: false,
   });
 
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [theme, setTheme] = useState("dark");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const router = useRouter();
 
   // Mouse tracking for interactive effects
   useEffect(() => {
@@ -62,77 +61,43 @@ export default function LoginPage() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.identifier.trim())
-      newErrors.identifier = "Email or Roll Number is required";
-    if (!formData.password) newErrors.password = "Password is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    // if (!formData.role) newErrors.role = "Role is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // const handleSubmit = async (e) => {
-  // e.preventDefault();
-  // if (!validateForm()) return;
-
-  // setIsLoading(true);
-  // try {
-  // const response = await fetch("/api/auth/login", {
-  // method: "POST",
-  // headers: {
-  // "Content-Type": "application/json",
-  // },
-  // body: JSON.stringify(formData),
-  // });
-
-  // const data = await response.json();
-
-  // if (response.ok) {
-  // // Handle successful login
-  // // Store token and redirect to dashboard
-  // localStorage.setItem("token", data.token);
-  // window.location.href = "/dashboard";
-  // } else {
-  // setErrors({ submit: data.message || "Login failed" });
-  // }
-  // } catch (error) {
-  // setErrors({ submit: "Network error. Please try again." });
-  // } finally {
-  // setIsLoading(false);
-  // }
-  // };
-
   const handleSubmit = async (e) => {
+    console.log("Form submitted");
     e.preventDefault();
     if (!validateForm()) return;
+
+    const role = formData.isAdmin
+      ? "admin"
+      : formData.email.includes("thapar")
+      ? "thaparStudent"
+      : "nonThaparStudent";
+
+    const payload = {
+      email: formData.email,
+      role,
+    };
 
     setIsLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/login`,
-        formData
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/forgot-password`,
+        payload
       );
 
-      toast.success("Login successfull!");
-      // On success
-      const { token, user } = response.data;
-      const role = user.role;
-      // Set token in cookies (expires in 7 days)
-      Cookies.set("token", token, { expires: 7 });
-      Cookies.set("userId", response.data.user.id, { expires: 7 });
-
-      // Save token and optionally user info
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-
-      // Redirect to dashboard
-
-      window.location.href = "/";
+      toast.success("Password reset link sent to your email!");
+      setSuccess(true);
+      router.push("/resetPassword");
     } catch (error) {
       if (error.response) {
-        // Server responded with a status other than 2xx
-        setErrors({ submit: error.response.data.message || "Login failed" });
+        setErrors({ submit: error.response.data.message || "Request failed" });
       } else {
-        // Network or other errors
         setErrors({ submit: "Network error. Please try again." });
       }
     } finally {
@@ -260,7 +225,7 @@ export default function LoginPage() {
                     : "text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600"
                 }`}
               >
-                Welcome Back!
+                Reset Your Password
               </span>
               <Sparkles
                 className={`w-6 h-6 animate-spin-slow ${
@@ -274,7 +239,7 @@ export default function LoginPage() {
                 theme === "dark" ? "text-white" : "text-indigo-900"
               }`}
             >
-              Login to{" "}
+              Forgot your{" "}
               <span
                 className={`text-transparent bg-clip-text animate-gradient-flow ${
                   theme === "dark"
@@ -282,7 +247,7 @@ export default function LoginPage() {
                     : "bg-gradient-to-r from-indigo-600 via-purple-600 to-yellow-500"
                 }`}
               >
-                Campus Connect
+                Password?
               </span>
             </h1>
 
@@ -291,8 +256,9 @@ export default function LoginPage() {
                 theme === "dark" ? "text-gray-300" : "text-indigo-700"
               }`}
             >
-              Continue your journey with thousands of students connecting and
-              collaborating
+              {success
+                ? "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder."
+                : "Enter your email and we'll send you a link to reset your password."}
             </p>
 
             {/* Success indicators */}
@@ -323,233 +289,226 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Main Form Card */}
-          <div
-            className={`backdrop-blur-xl rounded-3xl border shadow-2xl transition-all duration-1000 delay-200 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            } ${
-              theme === "dark"
-                ? "bg-white/5 border-white/10"
-                : "bg-white/80 border-indigo-200"
-            }`}
-          >
-            {/* Card Header */}
+          {/* Main Form Card - Only show if not success */}
+          {!success && (
             <div
-              className={`p-8 border-b rounded-t-3xl ${
+              className={`backdrop-blur-xl rounded-3xl border shadow-2xl transition-all duration-1000 delay-200 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              } ${
                 theme === "dark"
-                  ? "bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-white/10"
-                  : "bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200"
+                  ? "bg-white/5 border-white/10"
+                  : "bg-white/80 border-indigo-200"
               }`}
             >
-              <div className="text-center">
-                <div
-                  className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center ${
-                    theme === "dark"
-                      ? "bg-gradient-to-r from-purple-500 to-indigo-500"
-                      : "bg-gradient-to-r from-indigo-600 to-purple-600"
-                  } shadow-lg`}
-                >
-                  <Lock className="w-8 h-8 text-white" />
+              {/* Card Header */}
+              <div
+                className={`p-8 border-b rounded-t-3xl ${
+                  theme === "dark"
+                    ? "bg-gradient-to-r from-purple-600/20 to-indigo-600/20 border-white/10"
+                    : "bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200"
+                }`}
+              >
+                <div className="text-center">
+                  <div
+                    className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center ${
+                      theme === "dark"
+                        ? "bg-gradient-to-r from-purple-500 to-indigo-500"
+                        : "bg-gradient-to-r from-indigo-600 to-purple-600"
+                    } shadow-lg`}
+                  >
+                    <Lock className="w-8 h-8 text-white" />
+                  </div>
+                  <h2
+                    className={`text-3xl font-black mb-2 ${
+                      theme === "dark" ? "text-white" : "text-indigo-900"
+                    }`}
+                  >
+                    Password Recovery
+                  </h2>
+                  <p
+                    className={`${
+                      theme === "dark" ? "text-gray-300" : "text-indigo-700"
+                    }`}
+                  >
+                    Enter your email to receive a reset link
+                  </p>
                 </div>
-                <h2
-                  className={`text-3xl font-black mb-2 ${
-                    theme === "dark" ? "text-white" : "text-indigo-900"
-                  }`}
-                >
-                  Secure Login
-                </h2>
-                <p
-                  className={`${
-                    theme === "dark" ? "text-gray-300" : "text-indigo-700"
-                  }`}
-                >
-                  Enter your credentials to access your account
-                </p>
               </div>
-            </div>
 
-            {/* Card Content */}
-            <div className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Login Information Section */}
-                <div className="space-y-6">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                        theme === "dark"
-                          ? "bg-gradient-to-r from-purple-500 to-indigo-500"
-                          : "bg-gradient-to-r from-indigo-600 to-purple-600"
-                      }`}
-                    >
-                      <User className="w-5 h-5 text-white" />
+              {/* Card Content */}
+              <div className="p-8">
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  {/* Email Section */}
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                          theme === "dark"
+                            ? "bg-gradient-to-r from-purple-500 to-indigo-500"
+                            : "bg-gradient-to-r from-indigo-600 to-purple-600"
+                        }`}
+                      >
+                        <Mail className="w-5 h-5 text-white" />
+                      </div>
+                      <h3
+                        className={`text-xl font-bold ${
+                          theme === "dark" ? "text-white" : "text-indigo-900"
+                        }`}
+                      >
+                        Account Information
+                      </h3>
                     </div>
-                    <h3
-                      className={`text-xl font-bold ${
-                        theme === "dark" ? "text-white" : "text-indigo-900"
-                      }`}
-                    >
-                      Login Information
-                    </h3>
-                  </div>
 
-                  <div>
-                    <label
-                      className={`block text-sm font-bold mb-3 ${
-                        theme === "dark" ? "text-gray-300" : "text-indigo-700"
-                      }`}
-                    >
-                      <Mail className="inline w-4 h-4 mr-2" />
-                      Email or Roll Number
-                    </label>
-                    <Input
-                      type="text"
-                      value={formData.identifier}
-                      onChange={(e) =>
-                        handleInputChange("identifier", e.target.value)
-                      }
-                      placeholder="your.email@thapar.edu or your roll number"
-                      className={`h-12 rounded-xl border-2 transition-all duration-300 focus:ring-4 ${
-                        errors.identifier
-                          ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                          : theme === "dark"
-                          ? "bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
-                          : "bg-white border-indigo-200 text-indigo-900 placeholder-indigo-400 focus:border-indigo-500 focus:ring-indigo-500/20"
-                      }`}
-                    />
-                    {errors.identifier && (
-                      <p className="text-red-400 text-sm mt-2 flex items-center gap-1">
-                        <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                        {errors.identifier}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label
-                      className={`block text-sm font-bold mb-3 ${
-                        theme === "dark" ? "text-gray-300" : "text-indigo-700"
-                      }`}
-                    >
-                      <Lock className="inline w-4 h-4 mr-2" />
-                      Password
-                    </label>
-                    <div className="relative">
+                    <div>
+                      <label
+                        className={`block text-sm font-bold mb-3 ${
+                          theme === "dark" ? "text-gray-300" : "text-indigo-700"
+                        }`}
+                      >
+                        <Mail className="inline w-4 h-4 mr-2" />
+                        Email Address
+                      </label>
                       <Input
-                        type={showPassword ? "text" : "password"}
-                        value={formData.password}
+                        type="email"
+                        value={formData.email}
                         onChange={(e) =>
-                          handleInputChange("password", e.target.value)
+                          handleInputChange("email", e.target.value)
                         }
-                        placeholder="Enter your password"
-                        className={`h-12 rounded-xl border-2 pr-12 transition-all duration-300 focus:ring-4 ${
-                          errors.password
+                        className={`h-12 rounded-xl border-2 transition-all duration-300 focus:ring-4 ${
+                          errors.email
                             ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
                             : theme === "dark"
                             ? "bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
                             : "bg-white border-indigo-200 text-indigo-900 placeholder-indigo-400 focus:border-indigo-500 focus:ring-indigo-500/20"
                         }`}
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition-colors ${
+                      {errors.email && (
+                        <p className="text-red-400 text-sm mt-2 flex items-center gap-1">
+                          <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                          {errors.email}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-3 mt-4">
+                      <input
+                        type="checkbox"
+                        id="isAdmin"
+                        checked={formData.isAdmin}
+                        onChange={(e) =>
+                          handleInputChange("isAdmin", e.target.checked)
+                        }
+                        className={`h-5 w-5 rounded border-2 ${
                           theme === "dark"
-                            ? "text-gray-400 hover:text-gray-200"
-                            : "text-gray-500 hover:text-gray-700"
+                            ? "bg-white/10 border-white/20 checked:bg-purple-500"
+                            : "bg-white border-indigo-300 checked:bg-indigo-600"
+                        }`}
+                      />
+                      <label
+                        htmlFor="isAdmin"
+                        className={`text-sm font-medium ${
+                          theme === "dark" ? "text-gray-300" : "text-indigo-700"
                         }`}
                       >
-                        {showPassword ? (
-                          <EyeOff className="w-5 h-5" />
-                        ) : (
-                          <Eye className="w-5 h-5" />
-                        )}
-                      </button>
+                        I am an administrator
+                      </label>
                     </div>
-                    {errors.password && (
-                      <p className="text-red-400 text-sm mt-2 flex items-center gap-1">
-                        <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                        {errors.password}
-                      </p>
-                    )}
+
+                    {/* <div>
+                      <label
+                        className={`block text-sm font-bold mb-3 ${
+                          theme === "dark" ? "text-gray-300" : "text-indigo-700"
+                        }`}
+                      >
+                        <User className="inline w-4 h-4 mr-2" />
+                        Account Type
+                      </label>
+                      <select
+                        value={formData.role}
+                        onChange={(e) =>
+                          handleInputChange("role", e.target.value)
+                        }
+                        className={`h-12 w-full rounded-xl border-2 transition-all duration-300 focus:ring-4 px-4 ${
+                          errors.role
+                            ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                            : theme === "dark"
+                            ? "bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
+                            : "bg-white border-indigo-200 text-indigo-900 placeholder-indigo-400 focus:border-indigo-500 focus:ring-indigo-500/20"
+                        }`}
+                      >
+                        <option value="thaparStudent">Thapar Student</option>
+                        <option value="nonThaparStudent">
+                          Non-Thapar Student
+                        </option>
+                        <option value="admin">Admin</option>
+                      </select>
+                      {errors.role && (
+                        <p className="text-red-400 text-sm mt-2 flex items-center gap-1">
+                          <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                          {errors.role}
+                        </p>
+                      )}
+                    </div> */}
                   </div>
 
-                  <div className="flex justify-end">
+                  {/* Error Message */}
+                  {errors.submit && (
+                    <div
+                      className={`p-4 rounded-xl border ${
+                        theme === "dark"
+                          ? "bg-red-900/20 border-red-500/50 text-red-300"
+                          : "bg-red-50 border-red-200 text-red-600"
+                      }`}
+                    >
+                      <p className="text-sm font-medium">{errors.submit}</p>
+                    </div>
+                  )}
+
+                  {/* Submit Button */}
+                  <div className="pt-6">
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className={`w-full h-14 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl ${
+                        theme === "dark"
+                          ? "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
+                          : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
+                      } disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
+                    >
+                      {isLoading ? (
+                        <div className="flex items-center gap-3">
+                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          Sending Link...
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-3">
+                          Send Reset Link
+                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                        </div>
+                      )}
+                    </Button>
+                  </div>
+
+                  {/* Back to Login Link */}
+                  <div className="text-center pt-4">
                     <Link
-                      href="/forgot-password"
-                      className={`text-sm font-medium transition-colors hover:underline ${
+                      href="/login"
+                      className={`flex items-center justify-center gap-2 font-medium transition-colors hover:underline ${
                         theme === "dark"
                           ? "text-purple-400 hover:text-purple-300"
                           : "text-indigo-600 hover:text-indigo-800"
                       }`}
                     >
-                      Forgot password?
+                      <ChevronLeft className="w-5 h-5" />
+                      Back to Login
                     </Link>
                   </div>
-                </div>
-
-                {/* Error Message */}
-                {errors.submit && (
-                  <div
-                    className={`p-4 rounded-xl border ${
-                      theme === "dark"
-                        ? "bg-red-900/20 border-red-500/50 text-red-300"
-                        : "bg-red-50 border-red-200 text-red-600"
-                    }`}
-                  >
-                    <p className="text-sm font-medium">{errors.submit}</p>
-                  </div>
-                )}
-
-                {/* Submit Button */}
-                <div className="pt-6">
-                  <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className={`w-full h-14 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl ${
-                      theme === "dark"
-                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
-                        : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
-                    } disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
-                  >
-                    {isLoading ? (
-                      <div className="flex items-center gap-3">
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        Logging In...
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-3">
-                        Login
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                      </div>
-                    )}
-                  </Button>
-                </div>
-
-                {/* Signup Link */}
-                <div className="text-center pt-4">
-                  <p
-                    className={`${
-                      theme === "dark" ? "text-gray-300" : "text-indigo-700"
-                    }`}
-                  >
-                    Don&apos;t have an account?{" "}
-                    <Link
-                      href="/signup"
-                      className={`font-bold transition-colors hover:underline ${
-                        theme === "dark"
-                          ? "text-purple-400 hover:text-purple-300"
-                          : "text-indigo-600 hover:text-indigo-800"
-                      }`}
-                    >
-                      Sign up here
-                    </Link>
-                  </p>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 

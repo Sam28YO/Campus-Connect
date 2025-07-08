@@ -2,11 +2,8 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import {
-  Eye,
-  EyeOff,
-  Mail,
-  Hash,
   Lock,
   Sun,
   Moon,
@@ -16,17 +13,22 @@ import {
   CheckCircle,
   Star,
   User,
+  ChevronLeft,
+  Mail,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
-export default function LoginPage() {
+export default function ResetPasswordPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
-    identifier: "",
-    password: "",
+    email: "",
+    otp: "",
+    newPassword: "",
+    confirmPassword: "",
   });
-
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -50,7 +52,6 @@ export default function LoginPage() {
       ...prev,
       [field]: value,
     }));
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors((prev) => ({
         ...prev,
@@ -61,45 +62,17 @@ export default function LoginPage() {
 
   const validateForm = () => {
     const newErrors = {};
-
-    if (!formData.identifier.trim())
-      newErrors.identifier = "Email or Roll Number is required";
-    if (!formData.password) newErrors.password = "Password is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    if (!formData.otp.trim()) newErrors.otp = "OTP is required";
+    if (!formData.newPassword) newErrors.newPassword = "Password is required";
+    if (formData.newPassword.length < 8)
+      newErrors.newPassword = "Password must be at least 8 characters";
+    if (formData.newPassword !== formData.confirmPassword)
+      newErrors.confirmPassword = "Passwords do not match";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-  // const handleSubmit = async (e) => {
-  // e.preventDefault();
-  // if (!validateForm()) return;
-
-  // setIsLoading(true);
-  // try {
-  // const response = await fetch("/api/auth/login", {
-  // method: "POST",
-  // headers: {
-  // "Content-Type": "application/json",
-  // },
-  // body: JSON.stringify(formData),
-  // });
-
-  // const data = await response.json();
-
-  // if (response.ok) {
-  // // Handle successful login
-  // // Store token and redirect to dashboard
-  // localStorage.setItem("token", data.token);
-  // window.location.href = "/dashboard";
-  // } else {
-  // setErrors({ submit: data.message || "Login failed" });
-  // }
-  // } catch (error) {
-  // setErrors({ submit: "Network error. Please try again." });
-  // } finally {
-  // setIsLoading(false);
-  // }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,31 +81,22 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/login`,
-        formData
+        `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/reset-password`,
+        {
+          email: formData.email,
+          otp: formData.otp,
+          newPassword: formData.newPassword,
+        }
       );
 
-      toast.success("Login successfull!");
-      // On success
-      const { token, user } = response.data;
-      const role = user.role;
-      // Set token in cookies (expires in 7 days)
-      Cookies.set("token", token, { expires: 7 });
-      Cookies.set("userId", response.data.user.id, { expires: 7 });
-
-      // Save token and optionally user info
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-
-      // Redirect to dashboard
-
-      window.location.href = "/";
+      toast.success("Password reset successfully!");
+      setTimeout(() => {
+        router.push("/login");
+      }, 1500);
     } catch (error) {
       if (error.response) {
-        // Server responded with a status other than 2xx
-        setErrors({ submit: error.response.data.message || "Login failed" });
+        setErrors({ submit: error.response.data.message || "Reset failed" });
       } else {
-        // Network or other errors
         setErrors({ submit: "Network error. Please try again." });
       }
     } finally {
@@ -260,7 +224,7 @@ export default function LoginPage() {
                     : "text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600"
                 }`}
               >
-                Welcome Back!
+                Reset Your Password
               </span>
               <Sparkles
                 className={`w-6 h-6 animate-spin-slow ${
@@ -274,7 +238,7 @@ export default function LoginPage() {
                 theme === "dark" ? "text-white" : "text-indigo-900"
               }`}
             >
-              Login to{" "}
+              Set New{" "}
               <span
                 className={`text-transparent bg-clip-text animate-gradient-flow ${
                   theme === "dark"
@@ -282,7 +246,7 @@ export default function LoginPage() {
                     : "bg-gradient-to-r from-indigo-600 via-purple-600 to-yellow-500"
                 }`}
               >
-                Campus Connect
+                Password
               </span>
             </h1>
 
@@ -291,8 +255,7 @@ export default function LoginPage() {
                 theme === "dark" ? "text-gray-300" : "text-indigo-700"
               }`}
             >
-              Continue your journey with thousands of students connecting and
-              collaborating
+              Enter the OTP sent to your email and create a new password
             </p>
 
             {/* Success indicators */}
@@ -358,14 +321,14 @@ export default function LoginPage() {
                     theme === "dark" ? "text-white" : "text-indigo-900"
                   }`}
                 >
-                  Secure Login
+                  Password Reset
                 </h2>
                 <p
                   className={`${
                     theme === "dark" ? "text-gray-300" : "text-indigo-700"
                   }`}
                 >
-                  Enter your credentials to access your account
+                  Enter OTP and new password
                 </p>
               </div>
             </div>
@@ -373,7 +336,7 @@ export default function LoginPage() {
             {/* Card Content */}
             <div className="p-8">
               <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Login Information Section */}
+                {/* Email Section */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-3 mb-6">
                     <div
@@ -383,14 +346,14 @@ export default function LoginPage() {
                           : "bg-gradient-to-r from-indigo-600 to-purple-600"
                       }`}
                     >
-                      <User className="w-5 h-5 text-white" />
+                      <Mail className="w-5 h-5 text-white" />
                     </div>
                     <h3
                       className={`text-xl font-bold ${
                         theme === "dark" ? "text-white" : "text-indigo-900"
                       }`}
                     >
-                      Login Information
+                      Account Verification
                     </h3>
                   </div>
 
@@ -401,27 +364,26 @@ export default function LoginPage() {
                       }`}
                     >
                       <Mail className="inline w-4 h-4 mr-2" />
-                      Email or Roll Number
+                      Email Address
                     </label>
                     <Input
-                      type="text"
-                      value={formData.identifier}
+                      type="email"
+                      value={formData.email}
                       onChange={(e) =>
-                        handleInputChange("identifier", e.target.value)
+                        handleInputChange("email", e.target.value)
                       }
-                      placeholder="your.email@thapar.edu or your roll number"
                       className={`h-12 rounded-xl border-2 transition-all duration-300 focus:ring-4 ${
-                        errors.identifier
+                        errors.email
                           ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
                           : theme === "dark"
                           ? "bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
                           : "bg-white border-indigo-200 text-indigo-900 placeholder-indigo-400 focus:border-indigo-500 focus:ring-indigo-500/20"
                       }`}
                     />
-                    {errors.identifier && (
+                    {errors.email && (
                       <p className="text-red-400 text-sm mt-2 flex items-center gap-1">
                         <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                        {errors.identifier}
+                        {errors.email}
                       </p>
                     )}
                   </div>
@@ -433,18 +395,68 @@ export default function LoginPage() {
                       }`}
                     >
                       <Lock className="inline w-4 h-4 mr-2" />
-                      Password
+                      OTP (Check your email)
+                    </label>
+                    <Input
+                      type="text"
+                      value={formData.otp}
+                      onChange={(e) => handleInputChange("otp", e.target.value)}
+                      className={`h-12 rounded-xl border-2 transition-all duration-300 focus:ring-4 ${
+                        errors.otp
+                          ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                          : theme === "dark"
+                          ? "bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
+                          : "bg-white border-indigo-200 text-indigo-900 placeholder-indigo-400 focus:border-indigo-500 focus:ring-indigo-500/20"
+                      }`}
+                    />
+                    {errors.otp && (
+                      <p className="text-red-400 text-sm mt-2 flex items-center gap-1">
+                        <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                        {errors.otp}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Password Section */}
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                        theme === "dark"
+                          ? "bg-gradient-to-r from-purple-500 to-indigo-500"
+                          : "bg-gradient-to-r from-indigo-600 to-purple-600"
+                      }`}
+                    >
+                      <Lock className="w-5 h-5 text-white" />
+                    </div>
+                    <h3
+                      className={`text-xl font-bold ${
+                        theme === "dark" ? "text-white" : "text-indigo-900"
+                      }`}
+                    >
+                      New Password
+                    </h3>
+                  </div>
+
+                  <div>
+                    <label
+                      className={`block text-sm font-bold mb-3 ${
+                        theme === "dark" ? "text-gray-300" : "text-indigo-700"
+                      }`}
+                    >
+                      <Lock className="inline w-4 h-4 mr-2" />
+                      New Password
                     </label>
                     <div className="relative">
                       <Input
                         type={showPassword ? "text" : "password"}
-                        value={formData.password}
+                        value={formData.newPassword}
                         onChange={(e) =>
-                          handleInputChange("password", e.target.value)
+                          handleInputChange("newPassword", e.target.value)
                         }
-                        placeholder="Enter your password"
                         className={`h-12 rounded-xl border-2 pr-12 transition-all duration-300 focus:ring-4 ${
-                          errors.password
+                          errors.newPassword
                             ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
                             : theme === "dark"
                             ? "bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
@@ -467,25 +479,43 @@ export default function LoginPage() {
                         )}
                       </button>
                     </div>
-                    {errors.password && (
+                    {errors.newPassword && (
                       <p className="text-red-400 text-sm mt-2 flex items-center gap-1">
                         <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                        {errors.password}
+                        {errors.newPassword}
                       </p>
                     )}
                   </div>
 
-                  <div className="flex justify-end">
-                    <Link
-                      href="/forgot-password"
-                      className={`text-sm font-medium transition-colors hover:underline ${
-                        theme === "dark"
-                          ? "text-purple-400 hover:text-purple-300"
-                          : "text-indigo-600 hover:text-indigo-800"
+                  <div>
+                    <label
+                      className={`block text-sm font-bold mb-3 ${
+                        theme === "dark" ? "text-gray-300" : "text-indigo-700"
                       }`}
                     >
-                      Forgot password?
-                    </Link>
+                      <Lock className="inline w-4 h-4 mr-2" />
+                      Confirm Password
+                    </label>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      value={formData.confirmPassword}
+                      onChange={(e) =>
+                        handleInputChange("confirmPassword", e.target.value)
+                      }
+                      className={`h-12 rounded-xl border-2 transition-all duration-300 focus:ring-4 ${
+                        errors.confirmPassword
+                          ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                          : theme === "dark"
+                          ? "bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400/20"
+                          : "bg-white border-indigo-200 text-indigo-900 placeholder-indigo-400 focus:border-indigo-500 focus:ring-indigo-500/20"
+                      }`}
+                    />
+                    {errors.confirmPassword && (
+                      <p className="text-red-400 text-sm mt-2 flex items-center gap-1">
+                        <span className="w-1 h-1 bg-red-400 rounded-full"></span>
+                        {errors.confirmPassword}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -516,36 +546,30 @@ export default function LoginPage() {
                     {isLoading ? (
                       <div className="flex items-center gap-3">
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        Logging In...
+                        Resetting Password...
                       </div>
                     ) : (
                       <div className="flex items-center gap-3">
-                        Login
+                        Reset Password
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                       </div>
                     )}
                   </Button>
                 </div>
 
-                {/* Signup Link */}
+                {/* Back to Login Link */}
                 <div className="text-center pt-4">
-                  <p
-                    className={`${
-                      theme === "dark" ? "text-gray-300" : "text-indigo-700"
+                  <Link
+                    href="/login"
+                    className={`flex items-center justify-center gap-2 font-medium transition-colors hover:underline ${
+                      theme === "dark"
+                        ? "text-purple-400 hover:text-purple-300"
+                        : "text-indigo-600 hover:text-indigo-800"
                     }`}
                   >
-                    Don&apos;t have an account?{" "}
-                    <Link
-                      href="/signup"
-                      className={`font-bold transition-colors hover:underline ${
-                        theme === "dark"
-                          ? "text-purple-400 hover:text-purple-300"
-                          : "text-indigo-600 hover:text-indigo-800"
-                      }`}
-                    >
-                      Sign up here
-                    </Link>
-                  </p>
+                    <ChevronLeft className="w-5 h-5" />
+                    Back to Login
+                  </Link>
                 </div>
               </form>
             </div>
