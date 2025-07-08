@@ -94,7 +94,7 @@ export default function ImageCarousel() {
       </AnimatePresence>
 
       {/* Controls */}
-      <div className="flex items-center justify-center space-x-3 mt-4">
+      <div className="flex items-center justify-center space-x-3 my-8">
         <button
           onClick={() => setIsPlaying((prev) => !prev)}
           className="w-9 h-9 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-full"

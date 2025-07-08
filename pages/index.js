@@ -49,6 +49,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import ImageCarousel from "./components/ImageCarousel";
+import Navbar from "./components/navbar";
 
 const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -770,7 +771,7 @@ const Home = () => {
         style={{ animationDelay: feature.delay }}
       >
         <div
-          className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-3xl`}
+          className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-10   rounded-3xl`}
         ></div>
         <div
           className={`relative w-20 h-20 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6   shadow-lg`}
@@ -1003,7 +1004,7 @@ const Home = () => {
   const HowItWorksCard = ({ step, index }) => {
     return (
       <div
-        className={`group relative rounded-3xl p-8 border hover:shadow-2xl transition-all duration-500 ${
+        className={`group relative rounded-3xl p-8 border hover:shadow-2xl   ${
           theme === "dark"
             ? "bg-gradient-to-br from-yellow-600 via-yellow-500 to-orange-400 border-yellow-300"
             : "bg-gradient-to-br from-yellow-100 via-yellow-50 to-white border-yellow-200"
@@ -1050,7 +1051,7 @@ const Home = () => {
           {step.description}
         </p>
         <div
-          className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${
+          className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5   ${
             theme === "dark"
               ? "bg-gradient-to-r from-purple-500 to-indigo-500"
               : "bg-gradient-to-r from-indigo-400 to-purple-400"
@@ -1315,7 +1316,7 @@ const Home = () => {
           {benefit.description}
         </p>
         <div
-          className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5 transition-opacity duration-500 bg-gradient-to-r ${benefit.gradient}`}
+          className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-5   bg-gradient-to-r ${benefit.gradient}`}
         ></div>
       </div>
     );
@@ -2041,6 +2042,7 @@ const Home = () => {
       ></div>
 
       <div className="relative z-10">
+        <Navbar />
         {/* Enhanced Hero Section */}
         <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
@@ -2132,7 +2134,7 @@ const Home = () => {
                   >
                     <span className="flex items-center gap-2">
                       Find Students
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1  " />
                     </span>
                   </button>
                   <button
@@ -2693,7 +2695,7 @@ const Home = () => {
         {/* Enhanced Countdown Timer Section */}
         <button
           onClick={() => setShowOffer(true)}
-          className={`fixed bottom-6 left-6 z-50 py-4 px-6 rounded-full shadow-xl text-sm font-black flex items-center gap-4 transition-transform duration-300 hover:scale-105 ${
+          className={`fixed bottom-6 left-6 z-50 py-4 px-6 rounded-full shadow-xl text-sm font-black flex items-center gap-4   hover:scale-105 ${
             theme === "dark"
               ? "bg-gradient-to-r from-yellow-400 to-orange-400 text-black"
               : "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
@@ -2765,7 +2767,7 @@ const Home = () => {
                   </div>
                   <div className="h-3 rounded-full bg-indigo-100 dark:bg-white/20 overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500 rounded-full"
+                      className="h-full bg-gradient-to-r from-indigo-500 to-purple-500   rounded-full"
                       style={{ width: `${100 - seatsLeft}%` }}
                     ></div>
                   </div>
