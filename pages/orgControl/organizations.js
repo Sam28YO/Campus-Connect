@@ -86,6 +86,7 @@ export default function OrganizationsPage() {
 
   // Event Categories
   const eventCategories = [
+
     "Tech",
     "Cultural",
     "Sports",
@@ -102,7 +103,9 @@ export default function OrganizationsPage() {
     try {
       setLoading(true);
       setError(null);
+
       const response = await apiClient.get("/api/auth/get-organisations-for-admin");
+
       if (response.data && response.data.organisations) {
         const firstOrgId = response.data.organisations[0]?._id;
         if (firstOrgId) {

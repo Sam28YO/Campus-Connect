@@ -120,7 +120,6 @@ export default function LoginPage() {
       const { token, user } = response.data;
       const role = user.role;
       setUserCC(user);
-
       // Set token in cookies (expires in 7 days)
       Cookies.set("token", token, { expires: 7 });
       Cookies.set("userId", response.data.user.id, { expires: 7 });
@@ -131,7 +130,7 @@ export default function LoginPage() {
 
       // Redirect to dashboard
 
-      window.location.href = "/discussion";
+      // window.location.href = "/";
     } catch (error) {
       if (error.response) {
         // Server responded with a status other than 2xx
