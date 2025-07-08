@@ -35,10 +35,10 @@ globalThis.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/orgControl/events.js"
     ],
-    "/orgControl/organizations": [
+    "/profile": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/orgControl/organizations.js"
+      "static/chunks/pages/profile.js"
     ]
   },
   "ampFirstPages": []

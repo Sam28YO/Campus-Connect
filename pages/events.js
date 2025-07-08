@@ -123,14 +123,11 @@ export default function EventsPage() {
             : "",
           banner: safeString(event.bannerImage) || "/placeholder.svg?height=200&width=400",
           tags: safeArray(event.tags),
-          requirements: safeString(event.requirements),
           contact: safeString(event.organiser?.head?.email),
           fee: event.registrationFee ? `₹${event.registrationFee}` : "Free",
           status: safeString(event.status) || "Upcoming",
           eventMode: safeString(event.eventType?.type),
           eventCategory: safeString(event.category),
-          prizes: safeArray(event.prizes),
-          sponsors: safeArray(event.sponsors),
         }));
   
         setEvents(transformedEvents);
