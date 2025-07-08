@@ -1,11 +1,55 @@
-
-
-import { useState, useEffect, useRef } from "react"
-import { Search, MessageSquare, Bell, Star, ArrowRight, CheckCircle, Gift, Sparkles, Rocket, Heart, Sun, Moon, Quote, Users, GraduationCap, Calendar, Filter, MapPin, Code, Mic, Notebook, GroupIcon as TeamIcon, Cpu, PenTool, ChevronLeft, ChevronRight, Send, Bot, X, Minimize2, Maximize2, HelpCircle, Mail, Award, Globe, Crown, TrendingUp, Network, DollarSign, Plane, BookOpen, Target, Phone, User, LocateIcon as LocationIcon } from 'lucide-react'
-import Image from "next/image"
-import Link from "next/link"
-import ImageCarousel from "./components/ImageCarousel"
-import Navbar from "./components/navbar"
+import { useState, useEffect, useRef } from "react";
+import {
+  Search,
+  MessageSquare,
+  Bell,
+  Star,
+  ArrowRight,
+  CheckCircle,
+  Gift,
+  Sparkles,
+  Rocket,
+  Heart,
+  Sun,
+  Moon,
+  Quote,
+  Users,
+  GraduationCap,
+  Calendar,
+  Filter,
+  MapPin,
+  Code,
+  Mic,
+  Notebook,
+  GroupIcon as TeamIcon,
+  Cpu,
+  PenTool,
+  ChevronLeft,
+  ChevronRight,
+  Send,
+  Bot,
+  X,
+  Minimize2,
+  Maximize2,
+  HelpCircle,
+  Mail,
+  Award,
+  Globe,
+  Crown,
+  TrendingUp,
+  Network,
+  DollarSign,
+  Plane,
+  BookOpen,
+  Target,
+  Phone,
+  User,
+  LocateIcon as LocationIcon,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import ImageCarousel from "./components/ImageCarousel";
+import Navbar from "./components/navbar";
 
 const Home = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
